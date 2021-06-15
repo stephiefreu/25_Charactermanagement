@@ -4,15 +4,17 @@ public class Character {
     private int id;
     private String name;
     private int age;
+    private Gender gender;
     private String hairColor;
     private String skinColor;
     private String shirtColor;
     private String trouserColor;
 
-    public Character(int id, String name, int age, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+    public Character(int id, String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.gender = Gender.valueOf(gender);
         this.hairColor = hairColor;
         this.skinColor = skinColor;
         this.shirtColor = shirtColor;
@@ -73,6 +75,14 @@ public class Character {
 
     public void setTrouserColor(String trouserColor) {
         this.trouserColor = trouserColor;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
