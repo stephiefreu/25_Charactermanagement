@@ -23,8 +23,8 @@ public class Main extends Application {
         root = loader.load();
         controller = loader.getController();
         //controller.setActivitySet(new HashSet<>(new ActivityDBDao().getAll()));
-        Character c1 = new Character("Steve", 23, "#aaaaaa", "#aaaaaa", "#aaaaaa", "#aaaaaa");
-        Character c2 = new Character("Magda", 21, "#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb");
+        Character c1 = new Character("Steve", 23, "MALE", "#aaaaaa", "#aaaaaa", "#aaaaaa", "#aaaaaa");
+        Character c2 = new Character("Magda", 21, "FEMALE", "#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb");
         Set<Character> characters = new HashSet<>();
         characters.add(c1);
         characters.add(c2);

@@ -82,7 +82,7 @@ public class SelectCharacterController implements Initializable {
 
     @FXML
     private void createCharacter(ActionEvent actionEvent) {
-        Character newCharacter = new Character("Susi", 15, "#ffffff", "#ffffff", "#ffffff", "#ffffff");
+        Character newCharacter = new Character("Susi", 15, "FEMALE", "#ffffff", "#ffffff", "#ffffff", "#ffffff");
         characters.add(newCharacter);
         ObservableList<Character> observableList = FXCollections.observableList(new ArrayList<>(characters));
         lvCharacters.setItems(observableList);
