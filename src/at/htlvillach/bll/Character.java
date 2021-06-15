@@ -8,9 +8,20 @@ public class Character {
     private String skinColor;
     private String shirtColor;
     private String trouserColor;
+    private static int highestId = 0;
 
     public Character(int id, String name, int age, String hairColor, String skinColor, String shirtColor, String trouserColor) {
-        this.id = id;
+        setId(id);
+        this.name = name;
+        this.age = age;
+        this.hairColor = hairColor;
+        this.skinColor = skinColor;
+        this.shirtColor = shirtColor;
+        this.trouserColor = trouserColor;
+    }
+
+    public Character(String name, int age, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+        setId();
         this.name = name;
         this.age = age;
         this.hairColor = hairColor;
@@ -48,7 +59,13 @@ public class Character {
     }
 
     public void setId(int id) {
+        if(id > highestId)
+            highestId = id;
         this.id = id;
+    }
+
+    public void setId(){
+        this.id = highestId++;
     }
 
     public void setName(String name) {
