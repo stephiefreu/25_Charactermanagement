@@ -4,26 +4,29 @@ public class Character {
     private int id;
     private String name;
     private int age;
+    private Gender gender;
     private String hairColor;
     private String skinColor;
     private String shirtColor;
     private String trouserColor;
     private static int highestId = 0;
 
-    public Character(int id, String name, int age, String hairColor, String skinColor, String shirtColor, String trouserColor) {
-        setId(id);
+    public Character(String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+        setId();
         this.name = name;
         this.age = age;
+        this.gender = Gender.valueOf(gender);
         this.hairColor = hairColor;
         this.skinColor = skinColor;
         this.shirtColor = shirtColor;
         this.trouserColor = trouserColor;
     }
-
-    public Character(String name, int age, String hairColor, String skinColor, String shirtColor, String trouserColor) {
-        setId();
+  
+    public Character(int id, String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+        setId(id);
         this.name = name;
         this.age = age;
+        this.gender = Gender.valueOf(gender);
         this.hairColor = hairColor;
         this.skinColor = skinColor;
         this.shirtColor = shirtColor;
@@ -90,6 +93,14 @@ public class Character {
 
     public void setTrouserColor(String trouserColor) {
         this.trouserColor = trouserColor;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
