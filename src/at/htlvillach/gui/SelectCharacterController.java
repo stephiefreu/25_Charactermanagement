@@ -1,5 +1,6 @@
 package at.htlvillach.gui;
 
+import at.htlvillach.dal.dao.CharacterDBDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,8 +35,9 @@ public class SelectCharacterController implements Initializable {
     private Label lbSubheading;
     @FXML
     private ListView lvCharacters;
-    Character currentCharacter = null;
-    Set<Character> characters;
+    private Character currentCharacter = null;
+    private Set<Character> characters;
+    private CharacterDBDao dao = new CharacterDBDao();
 
     public void setCharacters(Set<Character> characters){
         this.characters = characters;
@@ -75,6 +77,8 @@ public class SelectCharacterController implements Initializable {
     private void removeCharacter(ActionEvent actionEvent) {
         if(currentCharacter != null){
             characters.remove(currentCharacter);
+            dao.delete(currentCharacter);
+
             ObservableList<Character> observableList = FXCollections.observableList(new ArrayList<>(characters));
             lvCharacters.setItems(observableList);
         }
@@ -84,6 +88,8 @@ public class SelectCharacterController implements Initializable {
     private void createCharacter(ActionEvent actionEvent) {
         Character newCharacter = new Character("Susi", 15, "FEMALE", "#ffffff", "#ffffff", "#ffffff", "#ffffff");
         characters.add(newCharacter);
+        dao.insert(newCharacter);
+
         ObservableList<Character> observableList = FXCollections.observableList(new ArrayList<>(characters));
         lvCharacters.setItems(observableList);
         lvCharacters.getSelectionModel().select(newCharacter);
