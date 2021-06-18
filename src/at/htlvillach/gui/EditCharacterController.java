@@ -1,20 +1,20 @@
 package at.htlvillach.gui;
 
+import at.htlvillach.dal.dao.CharacterDBDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import at.htlvillach.bll.Character;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,6 +49,9 @@ public class EditCharacterController implements Initializable {
     private ColorPicker cpTrouserColor;
     @FXML
     private ColorPicker cpShirtColor;
+    @FXML
+    private Button btnSaveAndClose;
+    private CharacterDBDao dao = new CharacterDBDao();
 
     public void setCharacter(Character character){
         this.character = character;
@@ -87,29 +90,29 @@ public class EditCharacterController implements Initializable {
         configureAgeSlider();
     }
 
-    private void configureColorPickers(){
+    private void configureColorPickers() {
         cpHairColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpHairColor.getValue();
-                character.setHairColor(color.toString());
+                character.setHairColor(toHexString(color));
             }
         });
         cpSkinColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpSkinColor.getValue();
-                character.setSkinColor(color.toString());
+                character.setSkinColor(toHexString(color));
             }
         });
         cpShirtColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpShirtColor.getValue();
-                character.setShirtColor(color.toString());
+                character.setShirtColor(toHexString(color));
             }
         });
         cpTrouserColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpTrouserColor.getValue();
-                character.setTrouserColor(color.toString());
+                character.setTrouserColor(toHexString(color));
             }
         });
     }
@@ -123,5 +126,21 @@ public class EditCharacterController implements Initializable {
                 lbAge.setText(String.format("Age: " + newValue.intValue()));
             }
         });
+    }
+
+    @FXML
+    private void saveAndClose(ActionEvent actionEvent) {
+        dao.update(character);
+        Stage stage = (Stage) btnSaveAndClose.getScene().getWindow();
+        stage.close();
+    }
+
+    private String format(double val) {
+        String in = Integer.toHexString((int) Math.round(val * 255));
+        return in.length() == 1 ? "0" + in : in;
+    }
+
+    public String toHexString(Color value) {
+        return "#" + (format(value.getRed()) + format(value.getGreen()) + format(value.getBlue())).toUpperCase();
     }
 }

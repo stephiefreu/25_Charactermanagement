@@ -82,19 +82,19 @@ public class DatabaseManager {
     public boolean updateCharacter(Character c){
         boolean result = false;
         PreparedStatement preparedStatement;
-        String stmt_update = "UPDATE Character SET name = ?, age = ?, gender = ?, hairColor = ?, skinColor = ?, shirtColor = ?, trouserColor = ? WHERE id = ?";
+        String stmt_update = "UPDATE Character SET name = ?, age = ?, gender = ?, hairColor = ?, skinColor = ?, shirtColor = ?, trouserColor = ? WHERE charId = ?";
         int numberrows = 0;
 
         try(Connection con = this.createConnection()){
-            preparedStatement = con.prepareStatement(stmt_update, new String[]{"id"});
+            preparedStatement = con.prepareStatement(stmt_update, new String[]{"charId"});
             preparedStatement.setString(1, c.getName());
             preparedStatement.setInt(2, c.getAge());
             preparedStatement.setString(3, c.getGender().toString());
             preparedStatement.setString(4, c.getHairColor());
-            preparedStatement.setString(4, c.getSkinColor());
-            preparedStatement.setString(4, c.getShirtColor());
-            preparedStatement.setString(4, c.getTrouserColor());
-            preparedStatement.setInt(4, c.getId());
+            preparedStatement.setString(5, c.getSkinColor());
+            preparedStatement.setString(6, c.getShirtColor());
+            preparedStatement.setString(7, c.getTrouserColor());
+            preparedStatement.setInt(8, c.getId());
             numberrows = preparedStatement.executeUpdate();
             if(numberrows > 0){
                 result = true;
@@ -109,7 +109,7 @@ public class DatabaseManager {
     public boolean insertCharacter(Character c){
         boolean result = false;
         PreparedStatement preparedStatement;
-        String stmt_insert = "INSERT INTO character (name, age, gender, hairColor, skinColor, shirtColor, trouserColor) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String stmt_insert = "INSERT INTO character (name, age, gender, hairColor, skinColor, shirtColor, trouserColor) VALUES (?, ?, ?, ?, ?, ?, ?)";
         ResultSet resultSet;
         int id = -1;
 
