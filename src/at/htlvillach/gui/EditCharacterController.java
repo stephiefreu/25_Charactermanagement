@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 
 import at.htlvillach.bll.Character;
@@ -53,6 +54,31 @@ public class EditCharacterController implements Initializable {
     private Button btnSaveAndClose;
     private CharacterDBDao dao = new CharacterDBDao();
 
+    @FXML
+    private SVGPath tshirt1;
+    @FXML
+    private SVGPath tshirt2;
+    @FXML
+    private SVGPath tshirt3;
+    @FXML
+    private SVGPath tshirt4;
+    @FXML
+    private SVGPath trousersleft;
+    @FXML
+    private SVGPath trousersright;
+    @FXML
+    private SVGPath hair1;
+    @FXML
+    private SVGPath hair2;
+    @FXML
+    private SVGPath skin1;
+    @FXML
+    private SVGPath skin2;
+    @FXML
+    private SVGPath skin3;
+    @FXML
+    private SVGPath skin4;
+
     public void setCharacter(Character character){
         this.character = character;
         tfName.setText(character.getName());
@@ -62,6 +88,35 @@ public class EditCharacterController implements Initializable {
         cpSkinColor.setValue(Color.web(character.getSkinColor()));
         cpShirtColor.setValue(Color.web(character.getShirtColor()));
         cpTrouserColor.setValue(Color.web(character.getTrouserColor()));
+
+        setHair(Color.web(character.getHairColor()));
+        setSkin(Color.web(character.getSkinColor()));
+        setTshirt(Color.web(character.getShirtColor()));
+        setTrouser(Color.web(character.getTrouserColor()));
+    }
+
+    private void setHair(Color web) {
+        hair1.setFill(web);
+        hair2.setFill(web);
+    }
+
+    private void setSkin(Color web) {
+        skin1.setFill(web);
+        skin2.setFill(web);
+        skin3.setFill(web);
+        skin4.setFill(web);
+    }
+
+    private void setTshirt(Color web){
+        tshirt1.setFill(web);
+        tshirt2.setFill(web);
+        tshirt3.setFill(web);
+        tshirt4.setFill(web);
+    }
+
+    private void setTrouser(Color web){
+        trousersleft.setFill(web);
+        trousersright.setFill(web);
     }
 
     @Override
@@ -94,25 +149,30 @@ public class EditCharacterController implements Initializable {
         cpHairColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpHairColor.getValue();
-                character.setHairColor(toHexString(color));
+                String hex = toHexString(color);
+                character.setHairColor(hex);
+                setHair(Color.web(hex));
             }
         });
         cpSkinColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpSkinColor.getValue();
                 character.setSkinColor(toHexString(color));
+                setSkin(Color.web(toHexString(color)));
             }
         });
         cpShirtColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpShirtColor.getValue();
                 character.setShirtColor(toHexString(color));
+                setTshirt(Color.web(toHexString(color)));
             }
         });
         cpTrouserColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpTrouserColor.getValue();
                 character.setTrouserColor(toHexString(color));
+                setTrouser(Color.web(toHexString(color)));
             }
         });
     }
