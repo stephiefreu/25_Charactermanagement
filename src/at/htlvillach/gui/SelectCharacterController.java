@@ -107,7 +107,7 @@ public class SelectCharacterController implements Initializable {
             controller.setCharacter(currentCharacter);
 
             Stage stage = new Stage();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 700, 600);
             stage.setScene(scene);
             stage.setTitle("Edit Character");
             stage.initModality(Modality.APPLICATION_MODAL);
