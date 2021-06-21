@@ -1,8 +1,11 @@
 package at.htlvillach.gui;
 
+import at.htlvillach.bll.Gender;
 import at.htlvillach.dal.dao.CharacterDBDao;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -18,6 +21,8 @@ import at.htlvillach.bll.Character;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class EditCharacterController implements Initializable {
@@ -53,6 +58,10 @@ public class EditCharacterController implements Initializable {
     @FXML
     private Button btnSaveAndClose;
     private CharacterDBDao dao = new CharacterDBDao();
+    @FXML
+    private Label lbGender;
+    @FXML
+    private ChoiceBox cbGender;
 
     @FXML
     private SVGPath tshirt1;
@@ -88,6 +97,10 @@ public class EditCharacterController implements Initializable {
         cpSkinColor.setValue(Color.web(character.getSkinColor()));
         cpShirtColor.setValue(Color.web(character.getShirtColor()));
         cpTrouserColor.setValue(Color.web(character.getTrouserColor()));
+        
+        ObservableList genderList = FXCollections.observableList(Arrays.asList(Gender.values().clone()));
+        cbGender.setItems(genderList);
+        cbGender.getSelectionModel().select(character.getGender());
 
         setHair(Color.web(character.getHairColor()));
         setSkin(Color.web(character.getSkinColor()));
@@ -143,6 +156,12 @@ public class EditCharacterController implements Initializable {
         });
         configureColorPickers();
         configureAgeSlider();
+        cbGender.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
+                character.setGender((Gender) newVal);
+            }
+        });
     }
 
     private void configureColorPickers() {
