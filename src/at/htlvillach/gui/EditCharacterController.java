@@ -28,7 +28,6 @@ import java.util.ResourceBundle;
 public class EditCharacterController implements Initializable {
     @FXML
     private Label lbHeading;
-    Character character;
     @FXML
     private ImageView imgCharacter;
     @FXML
@@ -57,7 +56,6 @@ public class EditCharacterController implements Initializable {
     private ColorPicker cpShirtColor;
     @FXML
     private Button btnSaveAndClose;
-    private CharacterDBDao dao = new CharacterDBDao();
     @FXML
     private Label lbGender;
     @FXML
@@ -88,8 +86,14 @@ public class EditCharacterController implements Initializable {
     @FXML
     private SVGPath skin4;
 
+    private CharacterDBDao dao = new CharacterDBDao();
+    Character editedCharacter;
+    Character originalCharacter;
+
     public void setCharacter(Character character){
-        this.character = character;
+        this.originalCharacter = character;
+        this.editedCharacter = new Character(character.getName(), character.getAge(), character.getGender().toString(), character.getHairColor(), character.getSkinColor(), character.getShirtColor(), character.getTrouserColor());
+
         tfName.setText(character.getName());
         slAge.setValue(character.getAge());
         lbAge.setText("Age: " + character.getAge());
@@ -97,7 +101,7 @@ public class EditCharacterController implements Initializable {
         cpSkinColor.setValue(Color.web(character.getSkinColor()));
         cpShirtColor.setValue(Color.web(character.getShirtColor()));
         cpTrouserColor.setValue(Color.web(character.getTrouserColor()));
-        
+
         ObservableList genderList = FXCollections.observableList(Arrays.asList(Gender.values().clone()));
         cbGender.setItems(genderList);
         cbGender.getSelectionModel().select(character.getGender());
@@ -152,14 +156,14 @@ public class EditCharacterController implements Initializable {
 
     private void configureChangeListeners(){
         tfName.setOnAction(e -> {
-            character.setName(tfName.getText());
+            editedCharacter.setName(tfName.getText());
         });
         configureColorPickers();
         configureAgeSlider();
         cbGender.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
-                character.setGender((Gender) newVal);
+                editedCharacter.setGender((Gender) newVal);
             }
         });
     }
@@ -169,28 +173,28 @@ public class EditCharacterController implements Initializable {
             public void handle(Event t) {
                 Color color = cpHairColor.getValue();
                 String hex = toHexString(color);
-                character.setHairColor(hex);
+                editedCharacter.setHairColor(hex);
                 setHair(Color.web(hex));
             }
         });
         cpSkinColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpSkinColor.getValue();
-                character.setSkinColor(toHexString(color));
+                editedCharacter.setSkinColor(toHexString(color));
                 setSkin(Color.web(toHexString(color)));
             }
         });
         cpShirtColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpShirtColor.getValue();
-                character.setShirtColor(toHexString(color));
+                editedCharacter.setShirtColor(toHexString(color));
                 setTshirt(Color.web(toHexString(color)));
             }
         });
         cpTrouserColor.setOnAction(new EventHandler() {
             public void handle(Event t) {
                 Color color = cpTrouserColor.getValue();
-                character.setTrouserColor(toHexString(color));
+                editedCharacter.setTrouserColor(toHexString(color));
                 setTrouser(Color.web(toHexString(color)));
             }
         });
@@ -201,7 +205,7 @@ public class EditCharacterController implements Initializable {
         slAge.setMax(123);
         slAge.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
-                character.setAge(newValue.intValue());
+                editedCharacter.setAge(newValue.intValue());
                 lbAge.setText(String.format("Age: " + newValue.intValue()));
             }
         });
@@ -209,7 +213,15 @@ public class EditCharacterController implements Initializable {
 
     @FXML
     private void saveAndClose(ActionEvent actionEvent) {
-        dao.update(character);
+        originalCharacter.setName(editedCharacter.getName());
+        originalCharacter.setAge(editedCharacter.getAge());
+        originalCharacter.setGender(editedCharacter.getGender());
+        originalCharacter.setHairColor(editedCharacter.getHairColor());
+        originalCharacter.setSkinColor(editedCharacter.getSkinColor());
+        originalCharacter.setShirtColor(editedCharacter.getShirtColor());
+        originalCharacter.setTrouserColor(editedCharacter.getTrouserColor());
+
+        dao.update(originalCharacter);
         Stage stage = (Stage) btnSaveAndClose.getScene().getWindow();
         stage.close();
     }

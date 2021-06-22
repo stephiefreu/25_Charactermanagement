@@ -20,11 +20,9 @@ import javafx.stage.Stage;
 
 import at.htlvillach.bll.Character;
 
-import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
 
