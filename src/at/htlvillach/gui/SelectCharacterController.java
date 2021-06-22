@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -84,7 +85,7 @@ public class SelectCharacterController implements Initializable {
 
     @FXML
     private void createCharacter(ActionEvent actionEvent) {
-        Character newCharacter = new Character("Susi", 15, "FEMALE", "#ffffff", "#ffffff", "#ffffff", "#ffffff");
+        Character newCharacter = new Character("Susi", 15, "FEMALE", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff");
         characters.add(newCharacter);
         dao.insert(newCharacter);
 
@@ -108,8 +109,10 @@ public class SelectCharacterController implements Initializable {
             Scene scene = new Scene(root, 700, 600);
             stage.setScene(scene);
             stage.setTitle("Edit Character");
+            stage.getIcons().add(new Image("file:magda.png"));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+            lvCharacters.refresh();
         }
     }
 }

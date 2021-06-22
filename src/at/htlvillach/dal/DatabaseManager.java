@@ -70,7 +70,8 @@ public class DatabaseManager {
                         resultSet.getString(5),
                         resultSet.getString(6),
                         resultSet.getString(7),
-                        resultSet.getString(8)));
+                        resultSet.getString(8),
+                        resultSet.getString(9)));
             }
         }catch(SQLException throwables){
             throwables.printStackTrace();
@@ -82,7 +83,7 @@ public class DatabaseManager {
     public boolean updateCharacter(Character c){
         boolean result = false;
         PreparedStatement preparedStatement;
-        String stmt_update = "UPDATE Character SET name = ?, age = ?, gender = ?, hairColor = ?, skinColor = ?, shirtColor = ?, trouserColor = ? WHERE charId = ?";
+        String stmt_update = "UPDATE Character SET name = ?, age = ?, gender = ?, hairColor = ?, skinColor = ?, shirtColor = ?, trouserColor = ?, shoeColor = ? WHERE charId = ?";
         int numberrows = 0;
 
         try(Connection con = this.createConnection()){
@@ -94,7 +95,8 @@ public class DatabaseManager {
             preparedStatement.setString(5, c.getSkinColor());
             preparedStatement.setString(6, c.getShirtColor());
             preparedStatement.setString(7, c.getTrouserColor());
-            preparedStatement.setInt(8, c.getId());
+            preparedStatement.setString(8, c.getShoeColor());
+            preparedStatement.setInt(9, c.getId());
             numberrows = preparedStatement.executeUpdate();
             if(numberrows > 0){
                 result = true;
@@ -109,7 +111,7 @@ public class DatabaseManager {
     public boolean insertCharacter(Character c){
         boolean result = false;
         PreparedStatement preparedStatement;
-        String stmt_insert = "INSERT INTO character (name, age, gender, hairColor, skinColor, shirtColor, trouserColor) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String stmt_insert = "INSERT INTO character (name, age, gender, hairColor, skinColor, shirtColor, trouserColor, shoeColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         ResultSet resultSet;
         int id = -1;
 
@@ -122,6 +124,7 @@ public class DatabaseManager {
             preparedStatement.setString(5, c.getSkinColor());
             preparedStatement.setString(6, c.getShirtColor());
             preparedStatement.setString(7, c.getTrouserColor());
+            preparedStatement.setString(8, c.getShoeColor());
             preparedStatement.execute();
 
             resultSet = preparedStatement.getGeneratedKeys();

@@ -6,6 +6,7 @@ import at.htlvillach.gui.SelectCharacterController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -23,18 +24,11 @@ public class Main extends Application {
         loader = new FXMLLoader(getClass().getResource("../gui/selectCharacter.fxml"));
         root = loader.load();
         controller = loader.getController();
-        //controller.setActivitySet(new HashSet<>(new ActivityDBDao().getAll()));
-//        Character c1 = new Character("Steve", 23, "MALE", "#aaaaaa", "#aaaaaa", "#aaaaaa", "#aaaaaa");
-//        Character c2 = new Character("Magda", 21, "FEMALE", "#bbbbbb", "#bbbbbb", "#bbbbbb", "#bbbbbb");
-//        Set<Character> characters = new HashSet<>();
-//        characters.add(c1);
-//        characters.add(c2);
-//        controller.setCharacters(characters);
-
         controller.setCharacters(new HashSet<>((new CharacterDBDao()).getAll()));
 
         primaryStage.setTitle("Character Management");
         primaryStage.setScene(new Scene(root));
+        primaryStage.getIcons().add(new Image("file:steve.png"));
         primaryStage.show();
     }
 

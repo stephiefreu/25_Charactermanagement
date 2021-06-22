@@ -9,9 +9,10 @@ public class Character {
     private String skinColor;
     private String shirtColor;
     private String trouserColor;
+    private String shoeColor;
     private static int highestId = 0;
 
-    public Character(String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+    public Character(String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor, String shoeColor) {
         setId();
         this.name = name;
         this.age = age;
@@ -20,9 +21,10 @@ public class Character {
         this.skinColor = skinColor;
         this.shirtColor = shirtColor;
         this.trouserColor = trouserColor;
+        this.shoeColor = shoeColor;
     }
   
-    public Character(int id, String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor) {
+    public Character(int id, String name, int age, String gender, String hairColor, String skinColor, String shirtColor, String trouserColor, String shoeColor) {
         setId(id);
         this.name = name;
         this.age = age;
@@ -31,6 +33,7 @@ public class Character {
         this.skinColor = skinColor;
         this.shirtColor = shirtColor;
         this.trouserColor = trouserColor;
+        this.shoeColor = shoeColor;
     }
 
     public int getId() {
@@ -59,6 +62,10 @@ public class Character {
 
     public String getTrouserColor() {
         return trouserColor;
+    }
+
+    public String getShoeColor() {
+        return shoeColor;
     }
 
     public void setId(int id) {
@@ -101,6 +108,10 @@ public class Character {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public void setShoeColor(String shoeColor) {
+        this.shoeColor = shoeColor;
     }
 
     @Override

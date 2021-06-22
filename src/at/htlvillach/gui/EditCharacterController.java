@@ -114,10 +114,22 @@ public class EditCharacterController implements Initializable {
     private Pane steve;
     @FXML
     private Pane madga;
+    @FXML
+    private SVGPath sshoe1;
+    @FXML
+    private SVGPath sshoe2;
+    @FXML
+    private SVGPath mshoe1;
+    @FXML
+    private SVGPath mshoe2;
+    @FXML
+    private Label lbShoeColor;
+    @FXML
+    private ColorPicker cpShoeColor;
 
     public void setCharacter(Character character){
         this.originalCharacter = character;
-        this.editedCharacter = new Character(character.getName(), character.getAge(), character.getGender().toString(), character.getHairColor(), character.getSkinColor(), character.getShirtColor(), character.getTrouserColor());
+        this.editedCharacter = new Character(character.getName(), character.getAge(), character.getGender().toString(), character.getHairColor(), character.getSkinColor(), character.getShirtColor(), character.getTrouserColor(), character.getShoeColor());
 
         tfName.setText(character.getName());
         slAge.setValue(character.getAge());
@@ -126,6 +138,7 @@ public class EditCharacterController implements Initializable {
         cpSkinColor.setValue(Color.web(character.getSkinColor()));
         cpShirtColor.setValue(Color.web(character.getShirtColor()));
         cpTrouserColor.setValue(Color.web(character.getTrouserColor()));
+        cpShoeColor.setValue(Color.web(character.getShoeColor()));
 
         showCharacter();
 
@@ -148,6 +161,7 @@ public class EditCharacterController implements Initializable {
         setSkin(Color.web(editedCharacter.getSkinColor()));
         setTshirt(Color.web(editedCharacter.getShirtColor()));
         setTrouser(Color.web(editedCharacter.getTrouserColor()));
+        setShoes(Color.web(editedCharacter.getShoeColor()));
     }
 
     private void setHair(Color web) {
@@ -196,6 +210,16 @@ public class EditCharacterController implements Initializable {
         }
     }
 
+    private void setShoes(Color web){
+        if(madga.isVisible()){
+            mshoe1.setFill(web);
+            mshoe2.setFill(web);
+        } else {
+            sshoe1.setFill(web);
+            sshoe2.setFill(web);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFonts();
@@ -206,19 +230,17 @@ public class EditCharacterController implements Initializable {
         Font luna = Font.loadFont("file:resources/fonts/Luna.ttf", 18);
         Font kiona = Font.loadFont("file:resources/fonts/Kiona.ttf", 14);
         lbHeading.setFont(luna);
-        lbAge.setFont(kiona);
         lbName.setFont(kiona);
+        lbAge.setFont(kiona);
+        lbGender.setFont(kiona);
         lbHairColor.setFont(kiona);
         lbSkinColor.setFont(kiona);
         lbShirtColor.setFont(kiona);
         lbTrouserColor.setFont(kiona);
-        lbGender.setFont(kiona);
+        lbShoeColor.setFont(kiona);
     }
 
     private void configureChangeListeners(){
-        tfName.setOnAction(e -> {
-            editedCharacter.setName(tfName.getText());
-        });
         configureColorPickers();
         configureAgeSlider();
         cbGender.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
@@ -260,6 +282,14 @@ public class EditCharacterController implements Initializable {
                 setTrouser(Color.web(toHexString(color)));
             }
         });
+        cpShoeColor.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Color color = cpShoeColor.getValue();
+                editedCharacter.setShoeColor(toHexString(color));
+                setShoes(Color.web(toHexString(color)));
+            }
+        });
     }
 
     private void configureAgeSlider(){
@@ -275,6 +305,7 @@ public class EditCharacterController implements Initializable {
 
     @FXML
     private void saveAndClose(ActionEvent actionEvent) {
+        editedCharacter.setName(tfName.getText());
         originalCharacter.setName(editedCharacter.getName());
         originalCharacter.setAge(editedCharacter.getAge());
         originalCharacter.setGender(editedCharacter.getGender());
@@ -282,6 +313,7 @@ public class EditCharacterController implements Initializable {
         originalCharacter.setSkinColor(editedCharacter.getSkinColor());
         originalCharacter.setShirtColor(editedCharacter.getShirtColor());
         originalCharacter.setTrouserColor(editedCharacter.getTrouserColor());
+        originalCharacter.setShoeColor(editedCharacter.getShoeColor());
 
         dao.update(originalCharacter);
         Stage stage = (Stage) btnSaveAndClose.getScene().getWindow();
