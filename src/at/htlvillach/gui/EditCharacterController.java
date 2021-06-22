@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
@@ -62,33 +63,57 @@ public class EditCharacterController implements Initializable {
     private ChoiceBox cbGender;
 
     @FXML
-    private SVGPath tshirt1;
+    private SVGPath stshirt1;
     @FXML
-    private SVGPath tshirt2;
+    private SVGPath stshirt2;
     @FXML
-    private SVGPath tshirt3;
+    private SVGPath stshirt3;
     @FXML
-    private SVGPath tshirt4;
+    private SVGPath stshirt4;
     @FXML
-    private SVGPath trousersleft;
+    private SVGPath strousersleft;
     @FXML
-    private SVGPath trousersright;
+    private SVGPath strousersright;
     @FXML
-    private SVGPath hair1;
+    private SVGPath shair1;
     @FXML
-    private SVGPath hair2;
+    private SVGPath shair2;
     @FXML
-    private SVGPath skin1;
+    private SVGPath sskin1;
     @FXML
-    private SVGPath skin2;
+    private SVGPath sskin2;
     @FXML
-    private SVGPath skin3;
+    private SVGPath sskin3;
     @FXML
-    private SVGPath skin4;
+    private SVGPath sskin4;
 
     private CharacterDBDao dao = new CharacterDBDao();
     Character editedCharacter;
     Character originalCharacter;
+    @FXML
+    private SVGPath mskin;
+    @FXML
+    private SVGPath mhair1;
+    @FXML
+    private SVGPath mshirt1;
+    @FXML
+    private SVGPath mtrouser1;
+    @FXML
+    private SVGPath mtrouser2;
+    @FXML
+    private SVGPath mshirt2;
+    @FXML
+    private SVGPath mskin2;
+    @FXML
+    private SVGPath mskin3;
+    @FXML
+    private SVGPath mhair2;
+    @FXML
+    private SVGPath mshirt3;
+    @FXML
+    private Pane steve;
+    @FXML
+    private Pane madga;
 
     public void setCharacter(Character character){
         this.originalCharacter = character;
@@ -102,38 +127,73 @@ public class EditCharacterController implements Initializable {
         cpShirtColor.setValue(Color.web(character.getShirtColor()));
         cpTrouserColor.setValue(Color.web(character.getTrouserColor()));
 
+        showCharacter();
+
         ObservableList genderList = FXCollections.observableList(Arrays.asList(Gender.values().clone()));
         cbGender.setItems(genderList);
         cbGender.getSelectionModel().select(character.getGender());
+    }
 
-        setHair(Color.web(character.getHairColor()));
-        setSkin(Color.web(character.getSkinColor()));
-        setTshirt(Color.web(character.getShirtColor()));
-        setTrouser(Color.web(character.getTrouserColor()));
+    private void showCharacter(){
+        if(editedCharacter.getGender() == Gender.FEMALE) {
+            steve.setVisible(false);
+            madga.setVisible(true);
+        }
+        else{
+            madga.setVisible(false);
+            steve.setVisible(true);
+        }
+
+        setHair(Color.web(editedCharacter.getHairColor()));
+        setSkin(Color.web(editedCharacter.getSkinColor()));
+        setTshirt(Color.web(editedCharacter.getShirtColor()));
+        setTrouser(Color.web(editedCharacter.getTrouserColor()));
     }
 
     private void setHair(Color web) {
-        hair1.setFill(web);
-        hair2.setFill(web);
+        if(madga.isVisible()){
+            mhair1.setFill(web);
+            mhair2.setFill(web);
+        } else {
+            shair1.setFill(web);
+            shair2.setFill(web);
+        }
     }
 
     private void setSkin(Color web) {
-        skin1.setFill(web);
-        skin2.setFill(web);
-        skin3.setFill(web);
-        skin4.setFill(web);
+        if(madga.isVisible()){
+            mskin.setFill(web);
+            mskin2.setFill(web);
+            mskin3.setFill(web);
+        } else {
+            sskin1.setFill(web);
+            sskin2.setFill(web);
+            sskin3.setFill(web);
+            sskin4.setFill(web);
+        }
     }
 
     private void setTshirt(Color web){
-        tshirt1.setFill(web);
-        tshirt2.setFill(web);
-        tshirt3.setFill(web);
-        tshirt4.setFill(web);
+        if(madga.isVisible()){
+            mshirt1.setFill(web);
+            mshirt2.setFill(web);
+            mshirt3.setFill(web);
+        } else {
+            stshirt1.setFill(web);
+            stshirt2.setFill(web);
+            stshirt3.setFill(web);
+            stshirt4.setFill(web);
+        }
     }
 
     private void setTrouser(Color web){
-        trousersleft.setFill(web);
-        trousersright.setFill(web);
+        if(madga.isVisible()){
+            mtrouser1.setFill(web);
+            mtrouser2.setFill(web);
+        } else {
+            strousersleft.setFill(web);
+            strousersright.setFill(web);
+        }
     }
 
     @Override
@@ -152,6 +212,7 @@ public class EditCharacterController implements Initializable {
         lbSkinColor.setFont(kiona);
         lbShirtColor.setFont(kiona);
         lbTrouserColor.setFont(kiona);
+        lbGender.setFont(kiona);
     }
 
     private void configureChangeListeners(){
@@ -164,6 +225,7 @@ public class EditCharacterController implements Initializable {
             @Override
             public void changed(ObservableValue observableValue, Object oldVal, Object newVal) {
                 editedCharacter.setGender((Gender) newVal);
+                showCharacter();
             }
         });
     }
